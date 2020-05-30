@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebStore.Core.Services;
+using WebStore.Core.Services.Interfaces;
 using WebStore.DataLayer.Context;
 
 namespace WebStore.Web
@@ -30,6 +32,12 @@ namespace WebStore.Web
 
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Context")));
+
+            #endregion
+
+            #region IOC
+
+            services.AddTransient<IUserService,UserService>();
 
             #endregion
         }
