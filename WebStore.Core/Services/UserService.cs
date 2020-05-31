@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WebStore.Core.Services.Interfaces;
 using WebStore.DataLayer.Context;
+using WebStore.DataLayer.Entities.User;
 
 namespace WebStore.Core.Services
 {
@@ -23,6 +24,13 @@ namespace WebStore.Core.Services
         public bool IsExistEmail(string email)
         {
             return _context.Users.Any(u => u.UserEmail == email);
+        }
+
+        public int AddUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return user.UserId;
         }
     }
 }

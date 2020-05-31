@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Core.Convertors;
 using WebStore.Core.DTOs;
+using WebStore.Core.Generator;
+using WebStore.Core.Security;
 using WebStore.Core.Services.Interfaces;
+using WebStore.DataLayer.Entities.User;
 
 namespace WebStore.Web.Controllers
 {
@@ -25,6 +28,7 @@ namespace WebStore.Web.Controllers
         }
 
         [HttpPost]
+        [Route("Register")]
         public IActionResult Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid)
@@ -43,7 +47,25 @@ namespace WebStore.Web.Controllers
                 ModelState.AddModelError("UserEmail","ایمیل معتبر نیست");
                 return View(registerViewModel);
             }
-            return View();
+
+            // TODO: REGISTER USER  
+
+            User user = new User()
+            {
+                UserActiveCode = NameGenerator.GenerateUniqueCode(),
+                UserEmail = FixedText.FixEmail(registerViewModel.UserEmail),
+                UserName = registerViewModel.UserName,
+                UserIsActive = false,
+                UserPassword = PasswordHelper.EncodePasswordMD5(registerViewModel.UserPassword),
+                UserRegisterDate = DateTime.Now,
+                UserAvatar = "Default.jpg"
+            };
+            _userService.AddUser(user);
+
+
+            return View("SuccessRegister",user);
         }
+
+        
     }
 }

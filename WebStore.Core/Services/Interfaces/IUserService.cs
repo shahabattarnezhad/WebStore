@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WebStore.DataLayer.Entities.User;
 
 namespace WebStore.Core.Services.Interfaces
 {
@@ -8,5 +9,6 @@ namespace WebStore.Core.Services.Interfaces
     {
         bool IsExistUserName(string userName);
         bool IsExistEmail(string email);
+        int AddUser(User user);
     }
 }
